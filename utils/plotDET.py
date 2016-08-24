@@ -1,0 +1,95 @@
+#!/usr/bin/env python
+# vim: set fileencoding=utf-8 :
+# Marcus de Assis Angeloni <marcus@liv.ic.unicamp.br>
+# Thu 7 Apr 2016 21:12:03
+
+import numpy
+import bob
+import matplotlib; matplotlib.use('pdf') #avoids TkInter threaded start
+from matplotlib.backends.backend_pdf import PdfPages
+import matplotlib.pyplot as mpl
+
+names = []
+names.append("Eyebrows")
+names.append("Eyes")
+names.append("Nose")
+names.append("Mouth")
+names.append("Fusion")
+
+arface_eb_g = numpy.loadtxt("arface_dct_eyebrows_svm_test_genuine.txt")
+arface_eb_i = numpy.loadtxt("arface_dct_eyebrows_svm_test_impostor.txt")
+arface_e_g = numpy.loadtxt("arface_gabor_eyes_svm_test_genuine.txt")
+arface_e_i = numpy.loadtxt("arface_gabor_eyes_svm_test_impostor.txt")
+arface_n_g = numpy.loadtxt("arface_mlbp_nose_svm_test_genuine.txt")
+arface_n_i = numpy.loadtxt("arface_mlbp_nose_svm_test_impostor.txt")
+arface_m_g = numpy.loadtxt("arface_gabor_mouth_svm_test_genuine.txt")
+arface_m_i = numpy.loadtxt("arface_gabor_mouth_svm_test_impostor.txt")
+arface_g = numpy.loadtxt("arface_test_genuine.txt")
+arface_i = numpy.loadtxt("arface_test_impostor.txt")
+
+muct_eb_g = numpy.loadtxt("muct_mlbp_eyebrows_svm_test_genuine.txt")
+muct_eb_i = numpy.loadtxt("muct_mlbp_eyebrows_svm_test_impostor.txt")
+muct_e_g = numpy.loadtxt("muct_mlbp_eyes_svm_test_genuine.txt")
+muct_e_i = numpy.loadtxt("muct_mlbp_eyes_svm_test_impostor.txt")
+muct_n_g = numpy.loadtxt("muct_gabor_nose_svm_test_genuine.txt")
+muct_n_i = numpy.loadtxt("muct_gabor_nose_svm_test_impostor.txt")
+muct_m_g = numpy.loadtxt("muct_gabor_mouth_svm_test_genuine.txt")
+muct_m_i = numpy.loadtxt("muct_gabor_mouth_svm_test_impostor.txt")
+muct_g = numpy.loadtxt("muct_test_genuine.txt")
+muct_i = numpy.loadtxt("muct_test_impostor.txt")
+
+xm2vts_eb_g = numpy.loadtxt("../scores_xm2vts/xm2vts_mlbp_eyebrows_svm_test_genuine.txt")
+xm2vts_eb_i = numpy.loadtxt("../scores_xm2vts/xm2vts_mlbp_eyebrows_svm_test_impostor.txt")
+xm2vts_e_g = numpy.loadtxt("../scores_xm2vts/xm2vts_gabor_eyes_svm_test_genuine.txt")
+xm2vts_e_i = numpy.loadtxt("../scores_xm2vts/xm2vts_gabor_eyes_svm_test_impostor.txt")
+xm2vts_n_g = numpy.loadtxt("../scores_xm2vts/xm2vts_gabor_nose_svm_test_genuine.txt")
+xm2vts_n_i = numpy.loadtxt("../scores_xm2vts/xm2vts_gabor_nose_svm_test_impostor.txt")
+xm2vts_m_g = numpy.loadtxt("../scores_xm2vts/xm2vts_gabor_mouth_svm_test_genuine.txt")
+xm2vts_m_i = numpy.loadtxt("../scores_xm2vts/xm2vts_gabor_mouth_svm_test_impostor.txt")
+xm2vts_g = numpy.loadtxt("xm2vts_test_genuine.txt")
+xm2vts_i = numpy.loadtxt("xm2vts_test_impostor.txt")
+
+fig = mpl.figure()
+bob.measure.plot.det(arface_eb_i, arface_eb_g, 100, color=(1,0,0), linestyle='-.', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(arface_e_i, arface_e_g, 100, color=(0.86,0.65,0.13), linestyle='--', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(arface_n_i, arface_n_g, 100, color=(0,0,1), linestyle='-', marker = '*', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(arface_m_i, arface_m_g, 100, color=(0.13,0.55,0.13), linestyle='-', marker = '<', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(arface_i, arface_g, 100, color=(0.58,0,0.83), linestyle='-', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det_axis([0.01, 40, 0.01, 40]) 
+mpl.xlabel('FR (%)', fontsize=17) 
+mpl.ylabel('FA (%)', fontsize=17)
+mpl.title("DET curve - AR Face", fontsize=22)
+mpl.grid(True)
+mpl.legend(names, loc=2, fontsize=17)
+fig.tight_layout()
+fig.savefig("arface.pdf")
+
+fig = mpl.figure()
+bob.measure.plot.det(muct_eb_i, muct_eb_g, 100, color=(1,0,0), linestyle='-.', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(muct_e_i, muct_e_g, 100, color=(0.86,0.65,0.13), linestyle='--', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(muct_n_i, muct_n_g, 100, color=(0,0,1), linestyle='-', marker = '*', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(muct_m_i, muct_m_g, 100, color=(0.13,0.55,0.13), linestyle='-', marker = '<', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(muct_i, muct_g, 100, color=(0.58,0,0.83), linestyle='-', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det_axis([0.01, 40, 0.01, 40]) 
+mpl.xlabel('FR (%)', fontsize=17)
+mpl.ylabel('FA (%)', fontsize=17)
+mpl.title("DET curve - MUCT", fontsize=22)
+mpl.grid(True)
+mpl.legend(names, loc=3, fontsize=17)
+fig.tight_layout()
+fig.savefig("muct.pdf")
+
+fig = mpl.figure()
+bob.measure.plot.det(xm2vts_eb_i, xm2vts_eb_g, 100, color=(1,0,0), linestyle='-.', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(xm2vts_e_i, xm2vts_e_g, 100, color=(0.86,0.65,0.13), linestyle='--', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(xm2vts_n_i, xm2vts_n_g, 100, color=(0,0,1), linestyle='-', marker = '*', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(xm2vts_m_i, xm2vts_m_g, 100, color=(0.13,0.55,0.13), linestyle='-', marker = '<', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det(xm2vts_i, xm2vts_g, 100, color=(0.58,0,0.83), linestyle='-', linewidth=3.5, axisfontsize=11)
+bob.measure.plot.det_axis([0.01, 40, 0.01, 40]) 
+mpl.xlabel('FR (%)', fontsize=17)
+mpl.ylabel('FA (%)', fontsize=17)
+mpl.title("DET curve - XM2VTS", fontsize=22)
+mpl.grid(True)
+mpl.legend(names, loc=3, fontsize=17)
+fig.tight_layout()
+fig.savefig("xm2vts.pdf")
