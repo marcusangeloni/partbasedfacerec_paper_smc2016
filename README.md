@@ -1,12 +1,11 @@
-# Part-Based Approach for Face Recognition
+# Part-Based Representation and Classification for Face Recognition
 
 Copyright 2016 Marcus de Assis Angeloni
 
 
 This repository contains the source code of face recognition experiments, as given in paper:
 
-	Marcus A. Angeloni and Helio Pedrini - "Part-Based Representation and Classification for Face Recognition",
-	in proceedings of IEEE International Conference on Systems, Man, and Cybernetics (SMC2016), Budapest, Hungary.
+> Marcus A. Angeloni and Helio Pedrini - "**Part-Based Representation and Classification for Face Recognition**", in proceedings of IEEE International Conference on Systems, Man, and Cybernetics (SMC 2016). Budapest, Hungary. p. 2900-2905
 
 
 Dependencies
@@ -14,28 +13,18 @@ Dependencies
 
 This code is tested to work under Python 2.7.
 
-The required dependencies to run the experiments are Numpy, SciPy, OpenCV, scikit-learn, scikit-image, and bob 1.2.2.
+The required dependencies to run the experiments are `Numpy`, `SciPy`, `OpenCV`, `scikit-learn`, `scikit-image`, and `bob 1.2.2`.
 
 To install the dependencies on Ubuntu 14.04, run the following commands (need administration rights):
 
 ```
-# NumPy
-sudo apt-get install python-numpy
-
-# SciPy
-sudo apt-get install python-scipy
-
-# OpenCV
-sudo apt-get install libopencv-dev python-opencv
-
-# scikit-learn
-sudo apt-get install python-sklearn
-
-# scikit-image
+sudo apt-get install python-numpy python-scipy libopencv-dev python-opencv python-sklearn
 sudo pip install Cython --upgrade
 sudo pip install -U scikit-image
+```
 
-# bob 1.2.2 (obtain and compile the code)
+`bob 1.2.2` (obtain and compile the code)
+```
 sudo add-apt-repository ppa:biometrics/bob
 sudo apt-get update
 sudo apt-get install wget git-core pkg-config cmake python-dev python-support liblapack-dev libatlas-base-dev libblitz1-dev libavformat-dev libavcodec-dev libswscale-dev libboost-all-dev libmatio-dev libjpeg8-dev libnetpbm10-dev libpng12-dev libtiff4-dev libgif-dev libhdf5-serial-dev libfftw3-dev texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended libsvm-dev libvl-dev dvipng dvipng
@@ -51,10 +40,9 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 sudo make
 sudo make install
-
 ```
 
-To finish the bob instalation, you might create a new file called /etc/profile.d/local_python.sh with the contents (need administration rights):
+To finish the `bob` instalation, you might create a new file called `/etc/profile.d/local_python.sh` with the contents (need administration rights):
 
 ```
 #!/bin/bash
