@@ -1,8 +1,5 @@
 # Part-Based Representation and Classification for Face Recognition
 
-Copyright 2016 Marcus de Assis Angeloni
-
-
 This repository contains the source code of face recognition experiments, as given in paper:
 
 > Marcus A. Angeloni and Helio Pedrini - "**Part-Based Representation and Classification for Face Recognition**", in proceedings of IEEE International Conference on Systems, Man, and Cybernetics (SMC 2016). Budapest, Hungary. p. 2900-2905
@@ -11,11 +8,11 @@ This repository contains the source code of face recognition experiments, as giv
 Dependencies
 ------------------
 
-This code is tested to work under Python 2.7.
+This code was tested to work under Python 2.7 on Ubuntu 14.04.
 
 The required dependencies to run the experiments are `Numpy`, `SciPy`, `OpenCV`, `scikit-learn`, `scikit-image`, and `bob 1.2.2`.
 
-To install the dependencies on Ubuntu 14.04, run the following commands (need administration rights):
+To install the dependencies, run the following commands (need administration rights):
 
 ```
 sudo apt-get install python-numpy python-scipy libopencv-dev python-opencv python-sklearn
@@ -23,7 +20,7 @@ sudo pip install Cython --upgrade
 sudo pip install -U scikit-image
 ```
 
-`bob 1.2.2` (obtain and compile the code)
+Furthermore, to install `bob 1.2.2` run the following commands to obtain and compile the code:
 ```
 sudo add-apt-repository ppa:biometrics/bob
 sudo apt-get update
