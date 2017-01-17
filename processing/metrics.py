@@ -5,9 +5,7 @@
 
 import numpy
 import os
-from datetime import datetime
 import bob.measure
-import argparse
 
 # read scores of evaluation and test set
 def read_scores(scores_path, database, part, experiment):
@@ -55,84 +53,3 @@ def compute(imp_eval, gen_eval, imp_test, gen_test):
     ter_test_fae0 = (far + frr) * 100
 
     return eer, fa_fre0, fr_fae0, fa_test_eer, fr_test_eer, ter_test_eer, fa_test_fre0, fr_test_fre0, ter_test_fre0, fa_test_fae0, fr_test_fae0, ter_test_fae0
-
-#################
-# main block
-#################
-
-# Get arguments
-parser = argparse.ArgumentParser(description='Calculate metrics using the score files')
-parser.add_argument('experiment', default='', help='Experiment name (prefix of score files, e.g., database_facialpart_feature_classifier_)')
-parser.add_argument('scores_path', default='', help='Directory with score files')
-
-args = parser.parse_args()
-
-if (not(os.path.exists(args.scores_path))):
-    print('Score directory (\"' + args.scores_path + '\") not found.')
-    exit()
-
-print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - Metrics calculation started")
-print("Experiment: " + args.experiment)
-print("Score directory: " + args.scores_path)
-
-# Get the path of the score files
-eval_impostor_path = os.path.join(args.scores_path, args.experiment + '_eval_impostor.txt')
-eval_genuine_path = os.path.join(args.scores_path, args.experiment + '_eval_genuine.txt')
-test_impostor_path = os.path.join(args.scores_path, args.experiment + '_test_impostor.txt')
-test_genuine_path = os.path.join(args.scores_path, args.experiment + '_test_genuine.txt')
-
-if (not(os.path.exists(eval_genuine_path))):
-    print('Score file of impostor in the evaluation set (\"' + args.eval_impostor_path + '\") not found.')
-    exit()
-
-if (not(os.path.exists(eval_genuine_path))):
-    print('Score file of genuine in the evaluation set (\"' + args.eval_genuine_path + '\") not found.')
-    exit()
-
-if (not(os.path.exists(test_impostor_path))):
-    print('Score file of impostor in the test set (\"' + args.test_impostor_path + '\") not found.')
-    exit()
-
-if (not(os.path.exists(test_genuine_path))):
-    print('Score file of genuine in the test set (\"' + args.test_genuine_path + '\") not found.')
-    exit()
-
-# Load scores
-eval_imp = numpy.loadtxt(eval_impostor_path)
-eval_gen = numpy.loadtxt(eval_genuine_path)
-test_imp = numpy.loadtxt(test_impostor_path)
-test_gen = numpy.loadtxt(test_genuine_path)
-
-print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " Scores loaded")
-
-# Calculate thresholds
-T_faefre = bob.measure.eer_threshold(eval_imp, eval_gen)
-T_fae0 = bob.measure.far_threshold(eval_imp,eval_gen, 0.00)
-T_fre0 = bob.measure.frr_threshold(eval_imp,eval_gen, 0.00)
-
-print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " Thresholds calculated")
-
-# Log the results
-text = 'Experiment: ' + args.experiment
-text += '\n\n>>Evaluation'
-far, frr = bob.measure.farfrr(eval_imp, eval_gen, T_faefre)
-text += '\n    FAE = FRE = ' + ("%.4f"%((far+frr)/2*100)) + '%'
-far, frr = bob.measure.farfrr(eval_imp, eval_gen, T_fre0)
-text += '\n    FAE (FRE = 0) = ' + ("%.4f"%(far*100)) + '%'
-far, frr = bob.measure.farfrr(eval_imp, eval_gen, T_fae0)
-text += '\n    FRE (FAE = 0) = ' + ("%.4f"%(frr*100)) + '%'
-text += '\n\n>>Test'
-far, frr = bob.measure.farfrr(test_imp, test_gen, T_faefre)
-text += '\n    (FAE = FRE) - FA: ' + ("%.4f"%(far*100)) + '% | FR: ' + ("%.4f"%(frr*100)) + '% | TER = ' + ("%.4f"%((far+frr)*100)) + '%'
-far, frr = bob.measure.farfrr(test_imp, test_gen, T_fre0)
-text += '\n    (FRE = 0) - FA: ' + ("%.4f"%(far*100)) + '% | FR: ' + ("%.4f"%(frr*100)) + '% | TER = ' + ("%.4f"%((far+frr)*100)) + '%'
-far, frr = bob.measure.farfrr(test_imp, test_gen, T_fae0)
-text += '\n    (FAE = 0) - FA: ' + ("%.4f"%(far*100)) + '% | FR: ' + ("%.4f"%(frr*100)) + '% | TER = ' + ("%.4f"%((far+frr)*100)) + '%'
-
-print(text)
-
-file = open(args.experiment + "_results.txt", "wt")
-file.write(text)
-file.close()
-
-print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - Metrics calculation finished")
