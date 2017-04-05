@@ -4,6 +4,19 @@ This repository contains the source code of face recognition experiments, as giv
 
 > Marcus A. Angeloni and Helio Pedrini - "**Part-Based Representation and Classification for Face Recognition**", in proceedings of IEEE International Conference on Systems, Man, and Cybernetics (SMC 2016). Budapest, Hungary. p. 2900-2905
 
+If you use this source code and/or its results, please cite our publication:
+
+```
+@inproceedings{Angeloni_SMC_2016, 
+author={M. de Assis Angeloni and H. Pedrini}, 
+title={Part-based representation and classification for face recognition}, 
+year={2016},
+month={Oct},
+booktitle={2016 IEEE International Conference on Systems, Man, and Cybernetics (SMC)}, 
+pages={002900-002905}, 
+doi={10.1109/SMC.2016.7844680}, 
+}
+```
 
 Dependencies
 ------------------
