@@ -40,7 +40,7 @@ annotation_dir = args.annotation_dir
 image_dir = args.image_dir
 output_dir = args.output_dir
 
-print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - ARFace - plot facial landmarks started")
+print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - XM2VTS - plot facial landmarks started")
 print("Annotation directory: " + annotation_dir)
 print("Image directory: " + image_dir)
 print("Output directory: " + output_dir)
@@ -106,4 +106,4 @@ for user in userList:
 
     cv2.imwrite(output_path, image) # save the output image
 
-print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - ARFace - plot facial landmarks finished")
+print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - XM2VTS - plot facial landmarks finished")
