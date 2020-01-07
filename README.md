@@ -91,5 +91,3 @@ Database and annotations
 	* MUCT database: https://github.com/StephenMilborrow/muct/raw/master/muct-landmarks-v1.tar.gz
 		* muct-landmarks/muct76-opencv.csv
 
-Usage
-------------------
