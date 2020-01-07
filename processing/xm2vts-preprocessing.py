@@ -52,7 +52,7 @@ userList = os.listdir(annotation_dir)
 eyebrows_dir, eyes_dir, nose_dir, mouth_dir = preprocess.create_facial_parts_dir(output_dir)
 
 for user in userList:
-    if (user[len(user)-3:len(user)] != annotation_extension): # check the file extension
+    if (user[len(user)-3:len(user)] != annotation_extension or user.startswith('.')): # check the file extension
         continue
 
     # define the annotation file path
@@ -65,7 +65,6 @@ for user in userList:
 
     # define the output image path
     user = user.replace(image_extension, output_extension)
-
     image = preprocess.load_image(image_path)
     print (datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - Current image " + image_path)
 

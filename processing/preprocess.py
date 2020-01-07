@@ -75,7 +75,7 @@ def crop_and_resize(image, minX, maxX, minY, maxY, incr, width, height):
     minY = centerY - newHeight / 2
     maxY = centerY + newHeight / 2
 
-    cropImg = image[minY:maxY, minX:maxX]
+    cropImg = image[int(minY):int(maxY), int(minX):int(maxX)]
     cropImg = cv2.resize(cropImg, (width, height))
 
     return cropImg

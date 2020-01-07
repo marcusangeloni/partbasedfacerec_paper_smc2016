@@ -84,6 +84,7 @@ for user in userList:
     # segment the eyes region
     coords = coordinates[0:26, 0:2]
     minX, maxX, minY, maxY = preprocess.find_min_max(coords)
+    print(str(minX) + " " + str(maxX) + " " + str(minY) + " " + str(maxY))
     eyes_img = preprocess.crop_and_resize(image, minX, maxX, minY, maxY, 0.03, 156, 29)
     
     # segment the eyebrows region
