@@ -50,7 +50,7 @@ print("Output directory: " + output_dir)
 userList = os.listdir(annotation_dir)
 
 for user in userList:
-    if(user[len(user)-3:len(user)] != annotation_extension): # check the file extension
+    if(user[len(user)-3:len(user)] != annotation_extension or user.startswith('.')): # check the file extension
         continue
 
     annotation_path = os.path.join(annotation_dir, user) # define the annotation file path
