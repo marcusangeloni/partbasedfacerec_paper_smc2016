@@ -4,7 +4,8 @@
 # Thu 7 Apr 2016 21:12:03
 
 import numpy
-import bob
+import bob.ip.base
+import bob.ip.gabor
 import os
 import sys
 import math
@@ -16,13 +17,23 @@ from datetime import datetime
 
 # compute tan and triggs illumination
 def compute_tanTriggs(image):
-    tt = bob.ip.TanTriggs(0.2, 1., 2., 5, 10., 0.1)
+    tt = bob.ip.base.TanTriggs(gamma = 0.2,
+                            sigma0 = 1.,
+                            sigma1 = 2.,
+                            radius = 5,
+                            threshold = 10.,
+                            alpha = 0.1)
     data = tt(image)
     return data
 
 # compute gray-level co-occurrence matrix descriptor
 def compute_glcm(image):
-    glcm = greycomatrix(image, distances=[1, 2, 3, 4], angles=[0, numpy.pi/4, numpy.pi/2, 3*numpy.pi/4], levels=256, symmetric=False, normed=True)
+    glcm = greycomatrix(image, 
+                    distances = [1, 2, 3, 4],
+                    angles = [0, numpy.pi/4, numpy.pi/2, 3*numpy.pi/4],
+                    levels = 256,
+                    symmetric = False,
+                    normed = True)
     
     features = numpy.zeros((6, glcm.shape[2] * glcm.shape[3]), dtype = numpy.float64)
     features[0, :] = greycoprops(glcm, 'contrast').flatten()
@@ -37,7 +48,11 @@ def compute_glcm(image):
 # compute 2D Discrete Cosine Transform descriptor
 def compute_dct(image):
     # block = 12x12, overlap = 11x11, normalized block, normalized features
-    dct = bob.ip.DCTFeatures(12, 12, 11, 11, 45, True, True)
+    dct = bob.ip.base.DCTFeatures(coefficients = 45,
+                                block_size = (12, 12),
+                                block_overlap = (11, 11),
+                                normalize_block = True,
+                                normalize_dct = True)
     features = dct(image)
     return features
 
@@ -48,26 +63,33 @@ def compute_lbp(image, P, R, blockSize, overlap):
     
     bins = P * (P - 1) + 3
     
-    lbp = bob.ip.LBP(P, R, R, True, False, False, True, False) # circular, uniform pattern
+    lbp = bob.ip.base.LBP(neighbors = P,
+                        radius = R,
+                        circular = True,
+                        to_average = False,
+                        add_average_bit = False,
+                        uniform = True,
+                        rotation_invariant = False)
     lbpImage = lbp(image)
     
-    nBlocksY = (lbpImage.shape[0] - overlap[0]) / stepY
-    nBlocksX = (lbpImage.shape[1] - overlap[1]) / stepX
+    nBlocksY = (lbpImage.shape[0] - overlap[0]) // stepY
+    nBlocksX = (lbpImage.shape[1] - overlap[1]) // stepX
     totalBlocks = nBlocksY * nBlocksX
-    
+
     features = numpy.zeros((totalBlocks, bins), dtype = numpy.float64)
     
-    x1 = 0
-    x2 = blockSize[1]
-    y1 = 0
-    y2 = blockSize[0]
     idx = 0
+    y1 = 0
+    y2 = blockSize[0]    
     
-    while (y2 < lbpImage.shape[0]):
-        while (x2 < lbpImage.shape[1]):
+    while (y2 <= lbpImage.shape[0]):
+        x1 = 0
+        x2 = blockSize[1]
+
+        while (x2 <= lbpImage.shape[1]):
             block = lbpImage[y1:y2, x1:x2]
             values = itemfreq(block.ravel())
-            
+
             for v in values:
                 features[idx, int(v[0])] = v[1]
             
@@ -77,7 +99,7 @@ def compute_lbp(image, P, R, blockSize, overlap):
         
         y1 += stepY
         y2 += stepY
-    
+
     return features
 
 # compute multiscale local binary pattern descriptor
@@ -93,7 +115,10 @@ def compute_mlbp(image, P, blockSize, overlap):
 
 # compute histogram of oriented gradients
 def compute_hog(image, pixels_cell):
-    features = skimage.feature.hog(image, orientations=9, pixels_per_cell=pixels_cell, cells_per_block=(1, 1))
+    features = skimage.feature.hog(image, 
+                                orientations = 9,
+                                pixels_per_cell = pixels_cell,
+                                cells_per_block=(1, 1))
     return features
 
 # compute histogram of oriented gradients descriptor
@@ -109,17 +134,16 @@ def compute_hog_descriptor(image):
 
 # compute gabor wavelet descriptor
 def compute_gabor(image):
-    gwt = bob.ip.GaborWaveletTransform(number_of_scales = 5,
-                                       number_of_angles = 8,
-                                       sigma = 2 * math.pi,
-                                       k_max = math.pi / 2.,
-                                       k_fac = math.sqrt(.5),
-                                       pow_of_k = 0,
-                                       dc_free = True)
+    gwt = bob.ip.gabor.Transform(number_of_scales = 5,
+                                number_of_directions = 8,
+                                sigma = 2 * math.pi,
+                                k_max = math.pi / 2.,
+                                k_fac = math.sqrt(.5),
+                                power_of_k = 0,
+                                dc_free = True)
                                        
     image_c = image.astype(numpy.complex128)
-    trafo_image = gwt.empty_trafo_image(image_c)
-    gwt(image_c, trafo_image)
+    trafo_image = gwt.transform(image_c)
     features = numpy.abs(trafo_image)
                                        
     return features
