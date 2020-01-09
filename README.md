@@ -21,9 +21,9 @@ doi={10.1109/SMC.2016.7844680},
 Dependencies
 ------------------
 
-This code was tested to work under Python 2.7 on Ubuntu 14.04.
+This code was tested to work under Python 3.7 on Ubuntu 19.04.
 
-The required dependencies to run the experiments are `Numpy`, `SciPy`, `OpenCV`, `scikit-learn`, `scikit-image`, and `bob 1.2.2`.
+The required dependencies to run the experiments are `Numpy`, `SciPy`, `OpenCV`, `scikit-learn`, `scikit-image`, and `bob`.
 
 To install the dependencies, run the following commands (need administration rights):
 
@@ -33,38 +33,22 @@ sudo pip install Cython --upgrade
 sudo pip install -U scikit-image
 ```
 
-Furthermore, to install `bob 1.2.2` run the following commands to obtain and compile the code:
+Furthermore, to install `bob`, install miniconda and run the following commands (based on https://www.idiap.ch/software/bob/docs/bob/docs/stable/bob/bob/doc/install.html):
 ```
-sudo add-apt-repository ppa:biometrics/bob
-sudo apt-get update
-sudo apt-get install wget git-core pkg-config cmake python-dev python-support liblapack-dev libatlas-base-dev libblitz1-dev libavformat-dev libavcodec-dev libswscale-dev libboost-all-dev libmatio-dev libjpeg8-dev libnetpbm10-dev libpng12-dev libtiff4-dev libgif-dev libhdf5-serial-dev libfftw3-dev texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended libsvm-dev libvl-dev dvipng dvipng
-sudo apt-get install python-argparse python-matplotlib python-tornado python-sqlalchemy python-sphinx python-nose python-setuptools python-imaging ipython python-ipdb libqt4-core libqt4-dev libqt4-gui qt4-dev-tools
+conda update -n base conda
+conda config --set show_channel_urls True
 
-mkdir workdir
-cd workdir
-wget http://www.idiap.ch/software/bob/packages/bob-1.2.2.tar.gz
-tar xvfz bob-1.2.2.tar.gz
-cd bob-1.2.2
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-sudo make
-sudo make install
-```
+conda create --name bob_py3 --override-channels \
+  -c https://www.idiap.ch/software/bob/conda -c defaults \
+  python=3 bob
+conda activate bob_py3
+conda config --env --add channels defaults
+conda config --env --add channels https://www.idiap.ch/software/bob/conda
 
-To finish the `bob` instalation, you might create a new file called `/etc/profile.d/local_python.sh` with the contents (need administration rights):
+conda install bob.io.image bob.bio.base bob.math bob.measure bob.bio.face bob.core bob.fusion.base bob.ip.base bob.ip.color bob.ip.dlib bob.ip.facedetect bob.ip.facelandmarks bob.ip.gabor
 
 ```
-#!/bin/bash
-export PYTHONPATH="<bob-build-path>/lib/python2.7/site-packages/":"$PYTHONPATH"
-```
 
-After that, you might add permission to this file:
-```
-chmod +x /etc/profile.d/local_python.sh
-```
-
-Finally, you do a logoff and a login, and the bob package will be available to your user.
 
 Database and annotations
 ------------------
@@ -90,4 +74,29 @@ Database and annotations
 
 	* MUCT database: https://github.com/StephenMilborrow/muct/raw/master/muct-landmarks-v1.tar.gz
 		* muct-landmarks/muct76-opencv.csv
+
+
+Usage
+------------------
+
+* Plot facial landmarks [Optional]:
+```
+python3 utils/arface-plotLandmarks.py annotations/arface_annot/AR_manual_markings/ images/arface_imgs out_arface
+python3 utils/muct-plotLandmarks.py annotations/muct_annot/muct-landmarks/muct76-opencv.csv images/muct_imgs/jpg/ out_muct
+python3 utils/xm2vts-plotLandmarks.py annotations/xm2vts_annot/landmarks/ images/xm2vts_imgs/imgs out_xm2vts
+```
+
+* Preprocessing:
+```
+python3 processing/arface-preprocessing.py annotations/arface_annot/AR_manual_markings/ images/arface_imgs/ processed_arface
+python3 processing/muct-preprocessing.py annotations/muct_annot/muct-landmarks/muct76-opencv.csv images/muct_imgs/jpg/ processed_muct
+python3 processing/xm2vts-preprocessing.py annotations/xm2vts_annot/landmarks/ images/xm2vts_imgs/imgs/ processed_xm2vts
+```
+
+* Feature extraction:
+```
+python3 processing/feature_extraction.py processed_arface feat_arface all
+python3 processing/feature_extraction.py processed_muct/ feat_muct all
+python3 processing/feature_extraction.py processed_xm2vts/ feat_xm2vts all
+```
 
