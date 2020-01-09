@@ -6,7 +6,7 @@
 import os
 import numpy
 import sys
-import bob
+import bob.measure
 import argparse
 from datetime import datetime
 from sklearn.decomposition import PCA
@@ -247,11 +247,11 @@ for curr_C in C_set:
             clients[key]["svm"] = svmTrain(curr_C, curr_gamma, gallery_X, clients[key]["gallery_y"])
             
             for idx in range(0, len(probe_X)):
-                score = clients[key]["svm"].decision_function(probe_X[idx])
+                score = clients[key]["svm"].decision_function(probe_X[idx].reshape(1, -1))
                 if (clients[key]["probe_y"][idx] == 1):
-                    genuine = numpy.concatenate((genuine, score[0]), axis = 0)
+                    genuine = numpy.concatenate((genuine, score), axis = 0)
                 else:
-                    impostor = numpy.concatenate((impostor, score[0]), axis = 0)
+                    impostor = numpy.concatenate((impostor, score), axis = 0)
                     
         curr_eer, curr_diff = EER(impostor, genuine)
         print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - SVM: C = " + str(curr_C) + ", gamma = " + str(curr_gamma) + " | EER = " + str(curr_eer) + " | diff = " + str(curr_diff) + ")")
@@ -285,7 +285,7 @@ for curr_n_estimators in n_estimators_set:
             clients[key]["rf"] = randomForestTrain(curr_n_estimators, curr_max_features, gallery_X, clients[key]["gallery_y"])
 
             for idx in range(0, len(probe_X)):
-                score = clients[key]["rf"].predict_proba(probe_X[idx])[0,1]
+                score = clients[key]["rf"].predict_proba(probe_X[idx].reshape(1, -1))[0, 1]
                 if (clients[key]["probe_y"][idx] == 1):
                     genuine = numpy.concatenate((genuine, [score]), axis = 0)
                 else:
@@ -326,7 +326,7 @@ for curr_n_neighbors in n_neighbors_set:
                 clients[key]["knn"] = knnTrain(curr_n_neighbors, curr_weights, curr_algorithm, gallery_X, clients[key]["gallery_y"])
            
                 for idx in range(0, len(probe_X)):
-                    score = clients[key]["knn"].predict_proba(probe_X[idx])[0,1]
+                    score = clients[key]["knn"].predict_proba(probe_X[idx].reshape(1, -1))[0, 1]
                     if (clients[key]["probe_y"][idx] == 1):
                         genuine = numpy.concatenate((genuine, [score]), axis = 0)
                     else:
