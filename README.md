@@ -100,3 +100,68 @@ python3 processing/feature_extraction.py processed_muct/ feat_muct all
 python3 processing/feature_extraction.py processed_xm2vts/ feat_xm2vts all
 ```
 
+* Training classifiers (3 datasets x 4 facial parts x 5 features x 3 classifiers):
+```
+python3 processing/classification.py arface_eyebrows_dct feat_arface/eyebrows/dct/ protocols/arface/ > log_arface_eyebrows_dct.txt
+python3 processing/classification.py arface_eyebrows_gabor feat_arface/eyebrows/gabor/ protocols/arface/ > log_arface_eyebrows_gabor.txt
+python3 processing/classification.py arface_eyebrows_glcm feat_arface/eyebrows/glcm/ protocols/arface/ > log_arface_eyebrows_glcm.txt
+python3 processing/classification.py arface_eyebrows_hog feat_arface/eyebrows/hog/ protocols/arface/ > log_arface_eyebrows_hog.txt
+python3 processing/classification.py arface_eyebrows_mlbp feat_arface/eyebrows/mlbp/ protocols/arface/ > log_arface_eyebrows_mlbp.txt
+python3 processing/classification.py arface_eyes_dct feat_arface/eyes/dct/ protocols/arface/ > log_arface_eyes_dct.txt
+python3 processing/classification.py arface_eyes_gabor feat_arface/eyes/gabor/ protocols/arface/ > log_arface_eyes_gabor.txt
+python3 processing/classification.py arface_eyes_glcm feat_arface/eyes/glcm/ protocols/arface/ > log_arface_eyes_glcm.txt
+python3 processing/classification.py arface_eyes_hog feat_arface/eyes/hog/ protocols/arface/ > log_arface_eyes_hog.txt
+python3 processing/classification.py arface_eyes_mlbp feat_arface/eyes/mlbp/ protocols/arface/ > log_arface_eyes_mlbp.txt
+python3 processing/classification.py arface_nose_dct feat_arface/nose/dct/ protocols/arface/ > log_arface_nose_dct.txt
+python3 processing/classification.py arface_nose_gabor feat_arface/nose/gabor/ protocols/arface/ > log_arface_nose_gabor.txt
+python3 processing/classification.py arface_nose_glcm feat_arface/nose/glcm/ protocols/arface/ > log_arface_nose_glcm.txt
+python3 processing/classification.py arface_nose_hog feat_arface/nose/hog/ protocols/arface/ > log_arface_nose_hog.txt
+python3 processing/classification.py arface_nose_mlbp feat_arface/nose/mlbp/ protocols/arface/ > log_arface_nose_mlbp.txt
+python3 processing/classification.py arface_mouth_dct feat_arface/mouth/dct/ protocols/arface/ > log_arface_mouth_dct.txt
+python3 processing/classification.py arface_mouth_gabor feat_arface/mouth/gabor/ protocols/arface/ > log_arface_mouth_gabor.txt
+python3 processing/classification.py arface_mouth_glcm feat_arface/mouth/glcm/ protocols/arface/ > log_arface_mouth_glcm.txt
+python3 processing/classification.py arface_mouth_hog feat_arface/mouth/hog/ protocols/arface/ > log_arface_mouth_hog.txt
+python3 processing/classification.py arface_mouth_mlbp feat_arface/mouth/mlbp/ protocols/arface/ > log_arface_mouth_mlbp.txt
+
+python3 processing/classification.py muct_eyebrows_dct feat_muct/eyebrows/dct/ protocols/muct/ > log_muct_eyebrows_dct.txt
+python3 processing/classification.py muct_eyebrows_gabor feat_muct/eyebrows/gabor/ protocols/muct/ > log_muct_eyebrows_gabor.txt
+python3 processing/classification.py muct_eyebrows_glcm feat_muct/eyebrows/glcm/ protocols/muct/ > log_muct_eyebrows_glcm.txt
+python3 processing/classification.py muct_eyebrows_hog feat_muct/eyebrows/hog/ protocols/muct/ > log_muct_eyebrows_hog.txt
+python3 processing/classification.py muct_eyebrows_mlbp feat_muct/eyebrows/mlbp/ protocols/muct/ > log_muct_eyebrows_mlbp.txt
+python3 processing/classification.py muct_eyes_dct feat_muct/eyes/dct/ protocols/muct/ > log_muct_eyes_dct.txt
+python3 processing/classification.py muct_eyes_gabor feat_muct/eyes/gabor/ protocols/muct/ > log_muct_eyes_gabor.txt
+python3 processing/classification.py muct_eyes_glcm feat_muct/eyes/glcm/ protocols/muct/ > log_muct_eyes_glcm.txt
+python3 processing/classification.py muct_eyes_hog feat_muct/eyes/hog/ protocols/muct/ > log_muct_eyes_hog.txt
+python3 processing/classification.py muct_eyes_mlbp feat_muct/eyes/mlbp/ protocols/muct/ > log_muct_eyes_mlbp.txt
+python3 processing/classification.py muct_nose_dct feat_muct/nose/dct/ protocols/muct/ > log_muct_nose_dct.txt
+python3 processing/classification.py muct_nose_gabor feat_muct/nose/gabor/ protocols/muct/ > log_muct_nose_gabor.txt
+python3 processing/classification.py muct_nose_glcm feat_muct/nose/glcm/ protocols/muct/ > log_muct_nose_glcm.txt
+python3 processing/classification.py muct_nose_hog feat_muct/nose/hog/ protocols/muct/ > log_muct_nose_hog.txt
+python3 processing/classification.py muct_nose_mlbp feat_muct/nose/mlbp/ protocols/muct/ > log_muct_nose_mlbp.txt
+python3 processing/classification.py muct_mouth_dct feat_muct/mouth/dct/ protocols/muct/ > log_muct_mouth_dct.txt
+python3 processing/classification.py muct_mouth_gabor feat_muct/mouth/gabor/ protocols/muct/ > log_muct_mouth_gabor.txt
+python3 processing/classification.py muct_mouth_glcm feat_muct/mouth/glcm/ protocols/muct/ > log_muct_mouth_glcm.txt
+python3 processing/classification.py muct_mouth_hog feat_muct/mouth/hog/ protocols/muct/ > log_muct_mouth_hog.txt
+python3 processing/classification.py muct_mouth_mlbp feat_muct/mouth/mlbp/ protocols/muct/ > log_muct_mouth_mlbp.txt
+
+python3 processing/classification.py xm2vts_eyebrows_dct feat_xm2vts/eyebrows/dct/ protocols/xm2vts/ > log_xm2vts_eyebrows_dct.txt
+python3 processing/classification.py xm2vts_eyebrows_gabor feat_xm2vts/eyebrows/gabor/ protocols/xm2vts/ > log_xm2vts_eyebrows_gabor.txt
+python3 processing/classification.py xm2vts_eyebrows_glcm feat_xm2vts/eyebrows/glcm/ protocols/xm2vts/ > log_xm2vts_eyebrows_glcm.txt
+python3 processing/classification.py xm2vts_eyebrows_hog feat_xm2vts/eyebrows/hog/ protocols/xm2vts/ > log_xm2vts_eyebrows_hog.txt
+python3 processing/classification.py xm2vts_eyebrows_mlbp feat_xm2vts/eyebrows/mlbp/ protocols/xm2vts/ > log_xm2vts_eyebrows_mlbp.txt
+python3 processing/classification.py xm2vts_eyes_dct feat_xm2vts/eyes/dct/ protocols/xm2vts/ > log_xm2vts_eyes_dct.txt
+python3 processing/classification.py xm2vts_eyes_gabor feat_xm2vts/eyes/gabor/ protocols/xm2vts/ > log_xm2vts_eyes_gabor.txt
+python3 processing/classification.py xm2vts_eyes_glcm feat_xm2vts/eyes/glcm/ protocols/xm2vts/ > log_xm2vts_eyes_glcm.txt
+python3 processing/classification.py xm2vts_eyes_hog feat_xm2vts/eyes/hog/ protocols/xm2vts/ > log_xm2vts_eyes_hog.txt
+python3 processing/classification.py xm2vts_eyes_mlbp feat_xm2vts/eyes/mlbp/ protocols/xm2vts/ > log_xm2vts_eyes_mlbp.txt
+python3 processing/classification.py xm2vts_nose_dct feat_xm2vts/nose/dct/ protocols/xm2vts/ > log_xm2vts_nose_dct.txt
+python3 processing/classification.py xm2vts_nose_gabor feat_xm2vts/nose/gabor/ protocols/xm2vts/ > log_xm2vts_nose_gabor.txt
+python3 processing/classification.py xm2vts_nose_glcm feat_xm2vts/nose/glcm/ protocols/xm2vts/ > log_xm2vts_nose_glcm.txt
+python3 processing/classification.py xm2vts_nose_hog feat_xm2vts/nose/hog/ protocols/xm2vts/ > log_xm2vts_nose_hog.txt
+python3 processing/classification.py xm2vts_nose_mlbp feat_xm2vts/nose/mlbp/ protocols/xm2vts/ > log_xm2vts_nose_mlbp.txt
+python3 processing/classification.py xm2vts_mouth_dct feat_xm2vts/mouth/dct/ protocols/xm2vts/ > log_xm2vts_mouth_dct.txt
+python3 processing/classification.py xm2vts_mouth_gabor feat_xm2vts/mouth/gabor/ protocols/xm2vts/ > log_xm2vts_mouth_gabor.txt
+python3 processing/classification.py xm2vts_mouth_glcm feat_xm2vts/mouth/glcm/ protocols/xm2vts/ > log_xm2vts_mouth_glcm.txt
+python3 processing/classification.py xm2vts_mouth_hog feat_xm2vts/mouth/hog/ protocols/xm2vts/ > log_xm2vts_mouth_hog.txt
+python3 processing/classification.py xm2vts_mouth_mlbp feat_xm2vts/mouth/mlbp/ protocols/xm2vts/ > log_xm2vts_mouth_mlbp.txt
+```
