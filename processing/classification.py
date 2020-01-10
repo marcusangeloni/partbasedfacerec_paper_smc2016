@@ -54,17 +54,16 @@ def read_clients(features_path, eval_path, test_path):
     f.close()
     
     dim = numpy.load(get_feature_path(features_path, lines[0].split()[1])).flatten().shape[0]
-    mask = "S" + str(len(lines[0].split()[0]))
 
     eval_clients_X = numpy.zeros((len(lines), dim), dtype = numpy.float64)
-    eval_clients_y = numpy.zeros(len(lines), dtype = mask)
+    eval_clients_y = []
     
     idx = 0
     for l in lines:
         fields = l.split()
         feature = numpy.load(get_feature_path(features_path, fields[1])).flatten()
         eval_clients_X[idx] = feature
-        eval_clients_y[idx] = fields[0]
+        eval_clients_y.append(fields[0])
         idx += 1
     
     f = open(test_path)
@@ -72,14 +71,14 @@ def read_clients(features_path, eval_path, test_path):
     f.close()
     
     test_clients_X = numpy.zeros((len(lines), dim), dtype = numpy.float64)
-    test_clients_y = numpy.zeros(len(lines), dtype = mask)
+    test_clients_y = []
 
     idx = 0
     for l in lines:
         fields = l.split()
         feature = numpy.load(get_feature_path(features_path, fields[1])).flatten()
         test_clients_X[idx] = feature
-        test_clients_y[idx] = fields[0]
+        test_clients_y.append(fields[0])
         idx += 1
 
     return (eval_clients_X, eval_clients_y, test_clients_X, test_clients_y)
@@ -411,36 +410,36 @@ knn_test_impostor = numpy.zeros(shape = (0))
 print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - Run impostor trials")
 for key in clients:
     for trial in eval_impostors:
-        score = clients[key]["svm"].decision_function(trial)
-        svm_eval_impostor = numpy.concatenate((svm_eval_impostor, score[0]), axis = 0)
-        score = clients[key]["rf"].predict_proba(trial)[0,1]
+        score = clients[key]["svm"].decision_function(trial.reshape(1, -1))
+        svm_eval_impostor = numpy.concatenate((svm_eval_impostor, score), axis = 0)
+        score = clients[key]["rf"].predict_proba(trial.reshape(1, -1))[0, 1]
         rf_eval_impostor = numpy.concatenate((rf_eval_impostor, [score]), axis = 0)
-        score = clients[key]["knn"].predict_proba(trial)[0,1]
+        score = clients[key]["knn"].predict_proba(trial.reshape(1, -1))[0, 1]
         knn_eval_impostor = numpy.concatenate((knn_eval_impostor, [score]), axis = 0)
 
     for trial in test_impostors:
-        score = clients[key]["svm"].decision_function(trial)
-        svm_test_impostor = numpy.concatenate((svm_test_impostor, score[0]), axis = 0)
-        score = clients[key]["rf"].predict_proba(trial)[0,1]
+        score = clients[key]["svm"].decision_function(trial.reshape(1, -1))
+        svm_test_impostor = numpy.concatenate((svm_test_impostor, score), axis = 0)
+        score = clients[key]["rf"].predict_proba(trial.reshape(1, -1))[0, 1]
         rf_test_impostor = numpy.concatenate((rf_test_impostor, [score]), axis = 0)
-        score = clients[key]["knn"].predict_proba(trial)[0,1]
+        score = clients[key]["knn"].predict_proba(trial.reshape(1, -1))[0, 1]
         knn_test_impostor = numpy.concatenate((knn_test_impostor, [score]), axis = 0)
 
 # Run genuine trials
 print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " - Run genuine trials")
 for idx in range(0, len(eval_clients_X)):
-    score = clients[eval_clients_y[idx]]["svm"].decision_function(eval_clients_X[idx])
-    svm_eval_client = numpy.concatenate((svm_eval_client, score[0]), axis = 0)
-    score = clients[eval_clients_y[idx]]["rf"].predict_proba(eval_clients_X[idx])[0,1]
+    score = clients[eval_clients_y[idx]]["svm"].decision_function(eval_clients_X[idx].reshape(1, -1))
+    svm_eval_client = numpy.concatenate((svm_eval_client, score), axis = 0)
+    score = clients[eval_clients_y[idx]]["rf"].predict_proba(eval_clients_X[idx].reshape(1, -1))[0, 1]
     rf_eval_client = numpy.concatenate((rf_eval_client, [score]), axis = 0)
-    score = clients[eval_clients_y[idx]]["knn"].predict_proba(eval_clients_X[idx])[0,1]
+    score = clients[eval_clients_y[idx]]["knn"].predict_proba(eval_clients_X[idx].reshape(1, -1))[0, 1]
     knn_eval_client = numpy.concatenate((knn_eval_client, [score]), axis = 0)
 for idx in range(0, len(test_clients_X)):
-    score = clients[test_clients_y[idx]]["svm"].decision_function(test_clients_X[idx])
-    svm_test_client = numpy.concatenate((svm_test_client, score[0]), axis = 0)
-    score = clients[test_clients_y[idx]]["rf"].predict_proba(test_clients_X[idx])[0,1]
+    score = clients[test_clients_y[idx]]["svm"].decision_function(test_clients_X[idx].reshape(1, -1))
+    svm_test_client = numpy.concatenate((svm_test_client, score), axis = 0)
+    score = clients[test_clients_y[idx]]["rf"].predict_proba(test_clients_X[idx].reshape(1, -1))[0, 1]
     rf_test_client = numpy.concatenate((rf_test_client, [score]), axis = 0)
-    score = clients[test_clients_y[idx]]["knn"].predict_proba(test_clients_X[idx])[0,1]
+    score = clients[test_clients_y[idx]]["knn"].predict_proba(test_clients_X[idx].reshape(1, -1))[0, 1]
     knn_test_client = numpy.concatenate((knn_test_client, [score]), axis = 0)
 
 print(">>>>>> Evaluation set results (Equal Error Rates) for each classifier")
