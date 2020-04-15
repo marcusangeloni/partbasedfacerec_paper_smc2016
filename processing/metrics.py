@@ -9,7 +9,7 @@ import bob.measure
 
 # read scores of evaluation and test set
 def read_scores(scores_path, database, part, experiment):
-    path = os.path.join(scores_path, database + "_" + experiment.replace("_","_" + part + "_"))
+    path = os.path.join(scores_path, database + "_" + part + "_" + experiment)
     impostor_eval_file = path + "_eval_impostor.txt"
     genuine_eval_file = path + "_eval_genuine.txt"
     impostor_test_file = path + "_test_impostor.txt"
