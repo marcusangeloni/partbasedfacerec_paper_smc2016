@@ -30,6 +30,14 @@ def compute(imp_eval, gen_eval, imp_test, gen_test):
     T_fae0 = bob.measure.far_threshold(imp_eval, gen_eval, 0.00)
     T_fre0 = bob.measure.frr_threshold(imp_eval, gen_eval, 0.00)
 
+    print(max(imp_eval))
+    print(min(gen_eval))
+
+    print("marcus")
+    print(T_faefre)
+    print(T_fae0)
+    print(T_fre0)
+
     # Calculate error rates in evaluation set
     far, frr = bob.measure.farfrr(imp_eval, gen_eval, T_faefre)
     eer = (far + frr) / 2 * 100

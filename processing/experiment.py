@@ -42,7 +42,7 @@ print(datetime.now().strftime('%d/%m/%Y %H:%M:%S') + " Metrics calculated")
 
 # Log the results
 text = "Hour,EER,FAE(FRE=0),FRE(FAE=0),FA_test_EER,FR_test_EER,TER_test_EER,FA_test_FRE0,FR_test_FRE0,TER_test_FRE0,FA_test_FAE0,FR_test_FAE0,TER_test_FAE0\n"
-text += datetime.now().strftime('%d/%m/%Y %H:%M:%S') + ',' + ("%.4f"%(eer)) + '%,' + ("%.4f"%(fa_fre0)) + '%,'+ ("%.4f"%(fr_fae0)) + '%,' + ("%.4f"%(fa_test_eer)) + '%,' + ("%.4f"%(fr_test_eer)) + '%,' + ("%.4f"%(ter_test_eer)) + '%,' + ("%.4f"%(fa_test_fre0)) + '%,' + ("%.4f"%(fr_test_fre0)) + '%,' + ("%.4f"%(ter_test_fre0)) + '%,' + ("%.4f"%(fa_test_fae0)) + '%,' + ("%.4f"%(fr_test_fae0)) + '%,' + ("%.4f"%(ter_test_fae0)) + "\n"
+text += datetime.now().strftime('%d/%m/%Y %H:%M:%S') + ',' + ("%.4f"%(eer)) + '%,' + ("%.4f"%(fa_fre0)) + '%,'+ ("%.4f"%(fr_fae0)) + '%,' + ("%.4f"%(fa_test_eer)) + '%,' + ("%.4f"%(fr_test_eer)) + '%,' + ("%.4f"%(ter_test_eer)) + '%,' + ("%.4f"%(fa_test_fre0)) + '%,' + ("%.4f"%(fr_test_fre0)) + '%,' + ("%.4f"%(ter_test_fre0)) + '%,' + ("%.4f"%(fa_test_fae0)) + '%,' + ("%.4f"%(fr_test_fae0)) + '%,' + ("%.4f"%(ter_test_fae0)) + "%\n"
 print(text)
 
 file = open(experiment_name + "_results.csv", "wt")

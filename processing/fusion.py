@@ -15,11 +15,11 @@ import metrics
 # standardize scores by removing the mean and scaling to unit variance
 def standardization(imp_eval, gen_eval, imp_test, gen_test):
     scaler = StandardScaler()
-    scaler.fit(numpy.concatenate((imp_eval,gen_eval)))
-    imp_eval = scaler.transform(imp_eval)
-    gen_eval = scaler.transform(gen_eval)
-    imp_test = scaler.transform(imp_test)
-    gen_test = scaler.transform(gen_test)
+    scaler.fit(numpy.concatenate((imp_eval,gen_eval)).reshape(-1, 1))
+    imp_eval = scaler.transform(imp_eval.reshape(-1, 1))
+    gen_eval = scaler.transform(gen_eval.reshape(-1, 1))
+    imp_test = scaler.transform(imp_test.reshape(-1, 1))
+    gen_test = scaler.transform(gen_test.reshape(-1, 1))
 
     return imp_eval, gen_eval, imp_test, gen_test
 
@@ -47,6 +47,7 @@ def llr_fusion(imp_ev_b, gen_ev_b, imp_ev_e, gen_ev_e, imp_ev_n, gen_ev_n, imp_e
     gen_eval = numpy.array(gen_eval,order='C')
 
     # train the LLR
+    bob.fusion.base.algorithm.LLR
     llrTrainer = bob.trainer.CGLogRegTrainer()
     llrMachine = bob.machine.LinearMachine()
                 
